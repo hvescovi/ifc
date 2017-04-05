@@ -44,61 +44,72 @@ public class controlador extends HttpServlet {
             String op = request.getParameter("op");
 
             if (op.equals("lista")) {
-                
+
                 // connecta a sessao
                 HttpSession ses = request.getSession(true);
-                
+
                 // busca a agenda
                 Agenda ag = (Agenda) ses.getAttribute("agenda");
-                
-                if (ag== null) {
+
+                if (ag == null) {
                     ag = new Agenda();
                 }
-                
+
                 rd = request.getRequestDispatcher("lista.jsp");
                 rd.forward(request, response);
-                
+
             } else if (op.equals("formIncluiPessoa")) {
                 rd = request.getRequestDispatcher("formIncluiPessoa.jsp");
                 rd.forward(request, response);
-                
+
             } else if (op.equals("incluiPessoa")) {
                 // connecta a sessao
                 HttpSession ses = request.getSession(true);
                 // busca a agenda
                 Agenda ag = (Agenda) ses.getAttribute("agenda");
-                
-                if (ag== null) {
+
+                if (ag == null) {
                     ag = new Agenda();
                 }
-                
+
                 // busca os campos da pessoa
                 String nome = request.getParameter("nome");
                 String endereco = request.getParameter("endereco");
                 String telefone = request.getParameter("telefone");
-                
-                // cria uma pessoa
-                Pessoa p = new Pessoa (nome, endereco, telefone);
-                
-                // adiciona na agenda
-                ag.adicionaPessoa(p);
-                
-                // atualiza a agenda da sessao
-                ses.setAttribute("agenda", ag);
-                
-                // cria a mensagem de sucesso
-                ses.setAttribute("mensagem", 
-                        "A pessoa foi incluída no cadastro.");
-                
-                // encaminha pra tela de sucesso
-                rd = request.getRequestDispatcher("sucesso.jsp");
-                rd.forward(request, response);
+
+                if ((nome.equals("")) || (endereco.equals(""))
+                        || (telefone.equals(""))) {
+                    // cria a mensagem de sucesso
+                    ses.setAttribute("mensagem",
+                            "Algum campo não foi preenchido :-(");
+
+                    // encaminha pra tela de sucesso
+                    rd = request.getRequestDispatcher("erro.jsp");
+                    rd.forward(request, response);
+                } else {
+
+                    // cria uma pessoa
+                    Pessoa p = new Pessoa(nome, endereco, telefone);
+
+                    // adiciona na agenda
+                    ag.adicionaPessoa(p);
+
+                    // atualiza a agenda da sessao
+                    ses.setAttribute("agenda", ag);
+
+                    // cria a mensagem de sucesso
+                    ses.setAttribute("mensagem",
+                            "A pessoa foi incluída no cadastro.");
+
+                    // encaminha pra tela de sucesso
+                    rd = request.getRequestDispatcher("sucesso.jsp");
+                    rd.forward(request, response);
+                }
             } else {
                 out.println("Controlador do sistema de pessoas, versão 1.0");
             }
-        }
-        catch (Exception ex) {
-            System.out.println("Erro: "+ex.getMessage());
+        } catch (Exception ex) {
+            System.out.println("Erro: " + ex.getMessage());
         }
     }
 
