@@ -51,23 +51,30 @@ public class controlador extends HttpServlet {
                 // busca a agenda
                 Agenda ag = (Agenda) ses.getAttribute("agenda");
 
+                // se nao houver agenda, cria uma
                 if (ag == null) {
                     ag = new Agenda();
                 }
 
+                // encaminha a resposta para a pagina de listagem
                 rd = request.getRequestDispatcher("lista.jsp");
                 rd.forward(request, response);
 
             } else if (op.equals("formIncluiPessoa")) {
+
+                // encaminha a resposta para o formulario de inclusao de pessoa
                 rd = request.getRequestDispatcher("formIncluiPessoa.jsp");
                 rd.forward(request, response);
 
             } else if (op.equals("incluiPessoa")) {
+
                 // connecta a sessao
                 HttpSession ses = request.getSession(true);
+
                 // busca a agenda
                 Agenda ag = (Agenda) ses.getAttribute("agenda");
 
+                // se nao houver agenda, cria uma
                 if (ag == null) {
                     ag = new Agenda();
                 }
@@ -77,13 +84,15 @@ public class controlador extends HttpServlet {
                 String endereco = request.getParameter("endereco");
                 String telefone = request.getParameter("telefone");
 
+                // algum campo foi deixado em branco?
                 if ((nome.equals("")) || (endereco.equals(""))
                         || (telefone.equals(""))) {
-                    // cria a mensagem de sucesso
+                    
+                    // cria a mensagem de erro
                     ses.setAttribute("mensagem",
                             "Algum campo não foi preenchido :-(");
 
-                    // encaminha pra tela de sucesso
+                    // encaminha pra tela de erro
                     rd = request.getRequestDispatcher("erro.jsp");
                     rd.forward(request, response);
                 } else {
@@ -94,7 +103,7 @@ public class controlador extends HttpServlet {
                     // adiciona na agenda
                     ag.adicionaPessoa(p);
 
-                    // atualiza a agenda da sessao
+                    // atualiza a agenda na sessao
                     ses.setAttribute("agenda", ag);
 
                     // cria a mensagem de sucesso
@@ -106,6 +115,7 @@ public class controlador extends HttpServlet {
                     rd.forward(request, response);
                 }
             } else {
+                // se op eh desconhecido, mostra informacao sobre o controlador
                 out.println("Controlador do sistema de pessoas, versão 1.0");
             }
         } catch (Exception ex) {
