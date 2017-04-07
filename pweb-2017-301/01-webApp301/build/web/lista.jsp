@@ -28,7 +28,7 @@
             for (Pessoa p : ag.getAgenda()) {
         %>
 
-        <%=p.getNome()%> <br>
+        <%=p.getNome()%>, [<%=p.getTelefone()%>] <br>
 
         <%
             }
