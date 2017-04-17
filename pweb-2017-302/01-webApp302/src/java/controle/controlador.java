@@ -5,6 +5,7 @@
  */
 package controle;
 
+import dao.PessoaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -38,6 +39,7 @@ public class controlador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
             //busca a agenda da sessao
@@ -53,7 +55,14 @@ public class controlador extends HttpServlet {
 
                 // se nao houver agenda, cria uma
                 if (ag == null) {
+                    // cria uma nova agenda
                     ag = new Agenda();
+                    // instancia a classe PessoaDAO
+                    PessoaDAO pdao = new PessoaDAO();
+                    // le as pessoas do arquivo XML e
+                    // jah configura a agenda para conter essas pessoas
+                    ag.setAgenda(pdao.carregaListaDePessoas());
+                    // coloca a agenda populada na sessao
                     ses.setAttribute("agenda", ag);
                 }
 
@@ -74,11 +83,6 @@ public class controlador extends HttpServlet {
 
                 // busca a agenda
                 Agenda ag = (Agenda) ses.getAttribute("agenda");
-
-                // se nao houver agenda, cria uma
-                if (ag == null) {
-                    ag = new Agenda();
-                }
 
                 // busca os campos da pessoa
                 String nome = request.getParameter("nome");
@@ -104,6 +108,12 @@ public class controlador extends HttpServlet {
                     // adiciona na agenda
                     ag.adicionaPessoa(p);
 
+                    // cria uma instância da classe DAO
+                    PessoaDAO pdao = new PessoaDAO();
+                    
+                    // insere a pessoa no arquivo de dados
+                    pdao.inserePessoa(p);
+                    
                     // atualiza a agenda na sessao
                     ses.setAttribute("agenda", ag);
 
