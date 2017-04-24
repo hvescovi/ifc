@@ -5,6 +5,7 @@
  */
 package controle;
 
+import dao.PessoaDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
@@ -38,6 +39,7 @@ public class controlador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
             //busca a agenda da sessao
@@ -88,7 +90,7 @@ public class controlador extends HttpServlet {
                 // algum campo foi deixado em branco?
                 if ((nome.equals("")) || (endereco.equals(""))
                         || (telefone.equals(""))) {
-                    
+
                     // cria a mensagem de erro
                     ses.setAttribute("mensagem",
                             "Algum campo não foi preenchido :-(");
@@ -101,19 +103,33 @@ public class controlador extends HttpServlet {
                     // cria uma pessoa
                     Pessoa p = new Pessoa(nome, endereco, telefone);
 
-                    // adiciona na agenda
-                    ag.adicionaPessoa(p);
+                    // adiciona a pessoa no arquivo XML
+                    PessoaDAO pd = new PessoaDAO();
+                    boolean foi = pd.inserePessoa(p);
 
-                    // atualiza a agenda na sessao
-                    ses.setAttribute("agenda", ag);
+                    if (!foi) {
+                        // cria a mensagem de erro
+                        ses.setAttribute("mensagem",
+                                "ERRO: não foi possível gravar os dados no arquivo XML");
 
-                    // cria a mensagem de sucesso
-                    ses.setAttribute("mensagem",
-                            "A pessoa foi incluída no cadastro.");
+                        // encaminha pra tela de erro
+                        rd = request.getRequestDispatcher("erro.jsp");
+                        rd.forward(request, response);
+                    } else {
+                        // adiciona na agenda
+                        ag.adicionaPessoa(p);
 
-                    // encaminha pra tela de sucesso
-                    rd = request.getRequestDispatcher("sucesso.jsp");
-                    rd.forward(request, response);
+                        // atualiza a agenda na sessao
+                        ses.setAttribute("agenda", ag);
+
+                        // cria a mensagem de sucesso
+                        ses.setAttribute("mensagem",
+                                "A pessoa foi incluída no cadastro.");
+
+                        // encaminha pra tela de sucesso
+                        rd = request.getRequestDispatcher("sucesso.jsp");
+                        rd.forward(request, response);
+                    }
                 }
             } else {
                 // se op eh desconhecido, mostra informacao sobre o controlador

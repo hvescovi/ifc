@@ -1,20 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package modelo;
 
-/**
- *
- * @author friend
- */
 public class Pessoa {
 
     private String nome;
     private String endereco;
     private String telefone;
 
+    public Pessoa() {
+        
+    }
+    
     public Pessoa(String nome, String endereco, String telefone) {
         this.nome = nome;
         this.endereco = endereco;
