@@ -88,11 +88,12 @@ public class controlador extends HttpServlet {
                 String nome = request.getParameter("nome");
                 String endereco = request.getParameter("endereco");
                 String telefone = request.getParameter("telefone");
+                String cpf = request.getParameter("cpf");
 
                 // algum campo foi deixado em branco?
                 if ((nome.equals("")) || (endereco.equals(""))
                         || (telefone.equals(""))) {
-                    
+
                     // cria a mensagem de erro
                     ses.setAttribute("mensagem",
                             "Algum campo não foi preenchido :-(");
@@ -104,47 +105,100 @@ public class controlador extends HttpServlet {
 
                     // cria uma pessoa
                     Pessoa p = new Pessoa(nome, endereco, telefone);
+                    p.setCpf(cpf);
 
                     // adiciona na agenda
                     ag.adicionaPessoa(p);
 
                     // cria uma instância da classe DAO
                     PessoaDAO pdao = new PessoaDAO();
-                    
+
                     // insere a pessoa no arquivo de dados
-                    pdao.inserePessoa(p);
-                    
-                    // atualiza a agenda na sessao
-                    ses.setAttribute("agenda", ag);
+                    boolean ok = pdao.inserePessoa(p);
 
-                    // cria a mensagem de sucesso
-                    ses.setAttribute("mensagem",
-                            "A pessoa foi incluída no cadastro.");
+                    if (ok) {
 
-                    // encaminha pra tela de sucesso
-                    rd = request.getRequestDispatcher("sucesso.jsp");
-                    rd.forward(request, response);
+                        // atualiza a agenda na sessao
+                        ses.setAttribute("agenda", ag);
+
+                        // cria a mensagem de sucesso
+                        ses.setAttribute("mensagem",
+                                "A pessoa foi incluída no cadastro.");
+
+                        // encaminha pra tela de sucesso
+                        rd = request.getRequestDispatcher("sucesso.jsp");
+                        rd.forward(request, response);
+                    } else {
+                        // cria a mensagem de erro
+                        ses.setAttribute("mensagem",
+                                "Erro ao inserir pessoa, no PessoaDAO");
+
+                        // encaminha pra tela de erro
+                        rd = request.getRequestDispatcher("erro.jsp");
+                        rd.forward(request, response);
+                    }
                 }
-            } else {
+            } else if (op.equals("exclui")) {
+
+                // connecta a sessao
+                HttpSession ses = request.getSession(true);
+
+                // busca a agenda
+                Agenda ag = (Agenda) ses.getAttribute("agenda");
+                
+                // obter o cpf a ser apagado
+                String cpfApagar = request.getParameter("cpf");
+                
+                ag.removePessoaPeloCPF(cpfApagar);
+                
+                PessoaDAO pdao = new PessoaDAO();
+                boolean salvouRemocao = pdao.salvarListaDePessoas(ag.getAgenda());
+                 if (salvouRemocao) {
+
+                        // atualiza a agenda na sessao
+                        ses.setAttribute("agenda", ag);
+
+                        // cria a mensagem de sucesso
+                        ses.setAttribute("mensagem",
+                                "A pessoa foi EXCLUÍDAÊ no cadastro.");
+
+                        // encaminha pra tela de sucesso
+                        rd = request.getRequestDispatcher("sucesso.jsp");
+                        rd.forward(request, response);
+                    } else {
+                        // cria a mensagem de erro
+                        ses.setAttribute("mensagem",
+                                "Erro ao inserir pessoa, no PessoaDAO");
+
+                        // encaminha pra tela de erro
+                        rd = request.getRequestDispatcher("erro.jsp");
+                        rd.forward(request, response);
+                    }
+            
+        }else {
                 // se op eh desconhecido, mostra informacao sobre o controlador
                 out.println("Controlador do sistema de pessoas, versão 1.0");
             }
-        } catch (Exception ex) {
-            System.out.println("Erro: " + ex.getMessage());
-        }
     }
+    catch (Exception ex
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+    
+        ) {
+            System.out.println("Erro: " + ex.getMessage());
+    }
+}
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -158,7 +212,7 @@ public class controlador extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -169,7 +223,7 @@ public class controlador extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

@@ -14,6 +14,7 @@
     <body>
         <form action="controlador" method="post">
             <input type="hidden" name="op" value="incluiPessoa">
+            CPF: <input type="text" name="cpf"> <br>
             Nome: <input type="text" name="nome"> <br>
             Endereço: <textarea name="endereco"></textarea> <br>
             Telefone: <input type="text" name="telefone"> <br>

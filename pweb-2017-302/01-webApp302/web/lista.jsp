@@ -4,6 +4,7 @@
     Author     : friend
 --%>
 
+<%@page import="dao.PessoaDAO"%>
 <%@page import="modelo.Pessoa"%>
 <%@page import="modelo.Agenda"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,7 +17,7 @@
 
         <script src="jquery-1.10.2.js">
         </script>
-        
+
         <script type="text/javascript" 
         src="jquery.tablesorter.js"></script> 
 
@@ -28,10 +29,19 @@
                         $(function () {
                             $('#keywords').tablesorter();
                         });
-
                     }
 
-            );
+            $(".acaoExclui").click(function () {
+                var clicked = $(this);
+                var id = clicked.attr("id");
+                var partes = id.split("-");
+                var cpf = partes[2];
+                $.get("controlador?op=exclui&cpf=" + cpf, function (data, status) {
+                    $('#linha-' + cpf).hide();
+                });
+
+            }
+            ));
 
         </script>
 
@@ -45,6 +55,7 @@
                 <tr>
                     <th><span>Nome</span></th>
                     <th><span>Telefone</span></th>
+                    <th><span>Operações</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -56,13 +67,20 @@
 
                     if (ag == null) {
                         ag = new Agenda();
+                        PessoaDAO pdao = new PessoaDAO();
+                        ag.setAgenda(pdao.carregaListaDePessoas());
+                        ses.setAttribute("agenda", ag);
                     }
                     for (Pessoa p : ag.getAgenda()) {
                 %>
 
-                <tr>
+                <tr id="linha-<%=p.getCpf()%>">
                     <td class="lalign"><%=p.getNome()%></td>
                     <td><%=p.getTelefone()%></td>
+                    <td>
+                        <a href="controlador?op=exclui&cpf=<%=p.getCpf()%>">Exclui</a> 
+                        <a href="#" class="acaoExclui" id="link-exclui-<%=p.getCpf()%>">Exclui II jquery</a>
+                    </td>
                 </tr>
 
 

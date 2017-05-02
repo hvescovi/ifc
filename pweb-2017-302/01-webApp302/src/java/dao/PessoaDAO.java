@@ -23,19 +23,24 @@ public class PessoaDAO {
         }
         return pessoas;
     }
-    
-    public void inserePessoa(Pessoa p) {
+
+    public boolean inserePessoa(Pessoa p) {
         ArrayList<Pessoa> pessoas = carregaListaDePessoas();
         pessoas.add(p);
+        return salvarListaDePessoas(pessoas);
+    }
+
+    public boolean salvarListaDePessoas(ArrayList<Pessoa> pessoas) {
         try {
             FileOutputStream fout = new FileOutputStream("/home/friend/pessoas.xml");
             BufferedOutputStream bos = new BufferedOutputStream(fout);
             XMLEncoder xmlenc = new XMLEncoder(bos);
             xmlenc.writeObject(pessoas);
             xmlenc.close();
-        }
-        catch (Exception ex) {
-            System.out.println("ERRO: "+ex.getMessage());
+            return true;
+        } catch (Exception ex) {
+            System.out.println("ERRO: " + ex.getMessage());
+            return false;
         }
     }
 }
