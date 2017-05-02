@@ -86,6 +86,7 @@ public class controlador extends HttpServlet {
                 String nome = request.getParameter("nome");
                 String endereco = request.getParameter("endereco");
                 String telefone = request.getParameter("telefone");
+                String cpf = request.getParameter("cpf");
 
                 // algum campo foi deixado em branco?
                 if ((nome.equals("")) || (endereco.equals(""))
@@ -102,6 +103,7 @@ public class controlador extends HttpServlet {
 
                     // cria uma pessoa
                     Pessoa p = new Pessoa(nome, endereco, telefone);
+                    p.setCpf(cpf);
 
                     // adiciona a pessoa no arquivo XML
                     PessoaDAO pd = new PessoaDAO();
@@ -131,6 +133,35 @@ public class controlador extends HttpServlet {
                         rd.forward(request, response);
                     }
                 }
+            } else if (op.equals("exclui")) {
+
+                // connecta a sessao
+                HttpSession ses = request.getSession(true);
+
+                // busca a agenda
+                Agenda ag = (Agenda) ses.getAttribute("agenda");
+
+                // quem vai ser apagado?
+                String cpfApagar = request.getParameter("cpf");
+
+                // remove a pessoa da agenda
+                ag.removePessoaPeloCPF(cpfApagar);
+
+                // atualiza a agenda na camada de persistência
+                PessoaDAO pdao = new PessoaDAO();
+                pdao.salvaListaDePessoas(ag.getAgenda());
+
+                // atualiza a agenda na sessao
+                ses.setAttribute("agenda", ag);
+
+                // cria a mensagem de sucesso
+                ses.setAttribute("mensagem",
+                        "A pessoa foi EXCLUÍDA do cadastro.");
+
+                // encaminha pra tela de sucesso
+                rd = request.getRequestDispatcher("sucesso.jsp");
+                rd.forward(request, response);
+
             } else {
                 // se op eh desconhecido, mostra informacao sobre o controlador
                 out.println("Controlador do sistema de pessoas, versão 1.0");
@@ -140,7 +171,7 @@ public class controlador extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

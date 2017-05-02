@@ -5,6 +5,7 @@ public class Pessoa {
     private String nome;
     private String endereco;
     private String telefone;
+    private String cpf;
 
     public Pessoa() {
         
@@ -38,5 +39,19 @@ public class Pessoa {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    /**
+     * @return the cpf
+     */
+    public String getCpf() {
+        return cpf;
+    }
+
+    /**
+     * @param cpf the cpf to set
+     */
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
     }
 }

@@ -26,21 +26,24 @@ public class PessoaDAO {
     }
     
     public boolean inserePessoa(Pessoa alguem) {
-        boolean deucerto = false;
         ArrayList<Pessoa> pessoas = carregaListaDePessoas();
         pessoas.add(alguem);
-        try {
+        return salvaListaDePessoas(pessoas);
+    }
+
+    public boolean salvaListaDePessoas(ArrayList<Pessoa> pessoas) {
+    try {
             FileOutputStream fout = new FileOutputStream("/home/friend/pessoas.xml");
             BufferedOutputStream bos = new BufferedOutputStream(fout);
             XMLEncoder xmlenc = new XMLEncoder(bos);
             xmlenc.writeObject(pessoas);
             xmlenc.close();
-            deucerto = true;
+            return true;
         }
         catch (Exception e) {
             System.out.println("ERRO: "+e.getMessage());
+            return false;
         }
-        return deucerto;
     }
     
     
