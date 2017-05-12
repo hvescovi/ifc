@@ -27,6 +27,46 @@
 
                         );
 
+
+                        // OPERACAO DE BUSCA
+                        $("#buscarTitulo").keyup(
+                                function () {
+
+                                    // pega o valor digitado
+                                    var valor = $(this).val();
+
+                                    // pede ao controlador lista de livros que contém
+                                    // o valor digitado no titulo
+                                    $.get("controlador?op=APIBuscaLivrosPorTitulo&procurado=" + valor, function (data, status) {
+
+                                        // pegar a resposta
+                                        var resposta = data;
+
+                                        // partir a resposta
+                                        var partes = resposta.split("|");
+
+                                        resultadoDeBusca = "";
+
+                                        for (i = 0; i < partes.length; i++) {
+                                            resultadoDeBusca += partes[i] + "<br>";
+                                        }
+                                        
+                                        // se nao achou livros, mostra John
+                                        if (resposta === "") {
+                                            $("#divResultados").html("<img src=procurando.gif width=120px>");
+                                        } else {
+                                            // mostrar a resposta
+                                            $("#divResultados").html(resultadoDeBusca);
+                                        }
+
+
+                                    });
+
+
+                                }
+
+                        );
+
                     }
 
             );
@@ -40,6 +80,11 @@
 
         <div id="divFormInserir">
         </div>
+
+        <div id="divResultados">
+        </div>
+
+
 
     </body>
 </html>

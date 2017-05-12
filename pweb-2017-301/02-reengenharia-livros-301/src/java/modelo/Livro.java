@@ -10,6 +10,13 @@ public class Livro {
     public Livro() {
     }
 
+    public Livro(int idLivro, String titulo, String autores, String ano) {
+        this.idLivro = idLivro;
+        this.titulo = titulo;
+        this.autores = autores;
+        this.ano = ano;
+    }
+
     public String getTitulo() {
         return titulo;
     }
