@@ -6,13 +6,16 @@ package controle;
  * and open the template in the editor.
  */
 
+import dao.LivroDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import modelo.Livro;
 
 /**
  *
@@ -44,7 +47,24 @@ public class controlador extends HttpServlet {
 
             } else if (op.equals("APIBuscaLivroPorTitulo")) {
 
-                out.println("achei muuuuitos livros");
+                // pegar o parâmetro de busca (livro que eu quero encontrar)
+                String procurado = request.getParameter("procura");
+                
+                // pedir ao DAO os livros que contenham esse título buscado
+                LivroDAO ldao = new LivroDAO();
+                ArrayList<Livro> encontrados = ldao.buscaLivrosPorTitulo(procurado);
+                
+                // preparar uma resposta da lista de livros em formato texto
+                String nomesLivros = "";
+                for (Livro livro : encontrados) {
+                    if (!nomesLivros.equals("")) {
+                        nomesLivros += "|";
+                    }
+                    nomesLivros += livro.getTitulo();
+                }
+                
+                // enviar a resposta
+                out.println(nomesLivros);
             }
 
         }
