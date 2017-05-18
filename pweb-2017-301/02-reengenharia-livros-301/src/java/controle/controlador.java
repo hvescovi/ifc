@@ -1,3 +1,5 @@
+package controle;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -8,11 +10,13 @@ import dao.xml.LivroDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import modelo.Livro;
 
 /**
@@ -60,6 +64,39 @@ public class controlador extends HttpServlet {
 
                 // retornar a string 
                 out.print(nomesLivros);
+                
+            } else if (op.equals("loginAdmin")) {
+                
+                // pegar os dados
+                String login = request.getParameter("login");
+                String senha = request.getParameter("senha");
+                
+                // validar os dados: se o login estah certo...
+                if (login.equals("admin") && senha.equals("123")) {
+                
+                  // botar a variavel administradorLogado na sessao,
+                  // com o valor "verdadeiro"
+                  HttpSession ses = request.getSession(true);
+                  ses.setAttribute("administradorLogado", true);
+                
+                  // mostra que o administrador estah logado! show!
+                  out.println("Admin, bem vindo! <a href=principal.jsp>Continuar</a>");
+                  
+                // se o login estah incorreto...
+                } else {
+                
+                  // mostra que o login estah incorreto!
+                  out.println("Login incorreto!!!!!! <a href=\"principal.jsp\">Continuar</a>");
+                }
+            } else if (op.equals("logout")) {
+                
+                // tira a variavel administradorLogado da sessao
+                HttpSession ses = request.getSession(true);
+                ses.removeAttribute("administradorLogado");
+                
+                // volta pra tela principal
+                RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
+                rd.forward(request, response);
                 
             }
             
