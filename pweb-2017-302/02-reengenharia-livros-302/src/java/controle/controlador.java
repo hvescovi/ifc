@@ -10,11 +10,13 @@ import dao.LivroDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import modelo.Livro;
 
 /**
@@ -65,6 +67,40 @@ public class controlador extends HttpServlet {
                 
                 // enviar a resposta
                 out.println(nomesLivros);
+            } else if(op.equals("login")) {
+                
+                // pegar os valores dos campos
+                String login = request.getParameter("login");
+                String senha = request.getParameter("senha");
+                
+                // verificar se login e senha estao corretos;
+                // se estiverem corretos...
+                if (login.equals("admin") && (senha.equals("123"))) {
+                
+                  // coloca a variavel adminLogado=true na sessao
+                  HttpSession ses = request.getSession(true);
+                  ses.setAttribute("adminLogado", true);
+                
+                  // boas vindas ao admin! e link pra continuar
+                  out.print("Vem admin!!! Parabéns!!! "
+                          + "<a href=principal.jsp>Continuar</a>");
+                  
+                } else {
+                // se nao estiver correto o login...
+                
+                  // responder ao usuario que o login estah incorreto!!!
+                  out.print("Você ERRROU o login ou a senha!!! Bah!!! "
+                          + "Tente outra vez. <a href=principal.jsp>Continuar</a>");
+                }
+            } else if (op.equals("vazaAdmin")) {
+                
+                // coloca na sessao que adminLogado=false
+                HttpSession ses = request.getSession(true);
+                ses.setAttribute("adminLogado", false);
+                
+                // encaminha a requisição de volta pra pagina principal
+                RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
+                rd.forward(request, response);
             }
 
         }

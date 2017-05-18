@@ -75,7 +75,7 @@
                                     $.get("controlador?op=APIBuscaLivroPorTitulo&procura=" + procura, function (data, status) {
 
                                         //alert(" recebeu a resposta do controlador");
-                                        
+
                                         // peeega a resposta
                                         var resp = data;
                                         //alert(resp);
@@ -107,6 +107,44 @@
         <div id="resultados">
             ola
         </div>
+
+        <div id="divAdmin">
+
+            <br><br><br><br><br><br><br><br><br><br><br><br>
+
+            <%
+                // conectar-se na sessao
+                HttpSession ses = request.getSession(true);
+
+                // pegar a variavel adminLogado da sessao
+                Boolean adminLogado = (Boolean) ses.getAttribute("adminLogado");
+
+                if ((adminLogado != null) && (adminLogado)) {
+            %>
+            <!-- se o admin estiver logado... -->
+            Opções do admin: 
+            <a href="">Menu</a>
+            <a href="controlador?op=vazaAdmin">Logout</a>
+
+            <%
+            } else {
+            %>
+
+            <!-- se o admin NAO estiver logado --->
+            <form action="controlador">
+                <input type="hidden" name="op" value="login">
+                Login do admin:
+                <input type="text" name="login">
+                Senha:
+                <input type="password" name="senha">
+                <input type="submit" value="Login">
+            </form>
+            <%
+                }
+            %>
+
+        </div>
+
 
     </body>
 </html>
