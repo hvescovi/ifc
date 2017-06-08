@@ -40,7 +40,7 @@ public class controlador extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             
-            // o que voce quer fazer hoje?
+            // obtém a qual a operação a ser executada
             String op = request.getParameter("op");
             
             if (op.equals("APIBuscaLivrosPorTitulo")) {

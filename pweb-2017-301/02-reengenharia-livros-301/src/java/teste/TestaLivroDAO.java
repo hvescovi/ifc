@@ -52,6 +52,5 @@ public class TestaLivroDAO {
             System.out.println("Titulo: "+livro.getTitulo());
         }
         
-        
     }
 }
