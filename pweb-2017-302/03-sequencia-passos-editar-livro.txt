@@ -1,9 +1,10 @@
 PRIMEIRO FLUXO (abrir tela de edição de dados):
 
-1. na página que mostra o ícone/link de editar livro: criar link para o controlador, especificando a operação "abrirFormEditarLivro" e informando o id do livro a ser editado.
+1. na página que lista os livros, ao lado de cada livro vai haver um link para editar o livro. Esse link será para o controlador, especificando a operação "abrirFormEditarLivro" e informando o id do livro a ser editado.
 
 2. no controlador:
 
+2.05 buscar o id do livro a ser editado
 2.1 solicita ao LivroDAO o Livro a ser editado
 2.2 armazena o livro a ser editado na sessão
 2.3 repassa o fluxo de execução para a página "formEditarLivro.jsp"
