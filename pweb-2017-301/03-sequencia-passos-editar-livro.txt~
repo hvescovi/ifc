@@ -4,7 +4,7 @@ PRIMEIRO FLUXO (abrir tela de edição de dados):
 
 2. no controlador:
 
-2.05 buscar o id do livro a ser editado
+2.05 buscar o nome do livro a ser editado
 2.1 solicita ao LivroDAO o Livro a ser editado
 2.2 armazena o livro a ser editado na sessão
 2.3 repassa o fluxo de execução para a página "formEditarLivro.jsp"

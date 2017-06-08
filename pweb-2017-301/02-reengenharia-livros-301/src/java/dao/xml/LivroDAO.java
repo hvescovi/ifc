@@ -90,4 +90,54 @@ public class LivroDAO {
         // retorna a lista de retorno
         return retorno;
     }
+
+    public Livro buscaLivroPorTitulo(String procurado) {
+
+        // carregar os livros
+        ArrayList<Livro> livros = carregaLivros();
+
+        // percorrer os livros
+        for (Livro livro : livros) {
+
+            // se achou o livro procurado
+            if (livro.getTitulo().equals(procurado)) {
+
+                return livro;
+            }
+        }
+
+        // se nao achou o livro
+        return null;
+    }
+
+    public void atualizaLivro(Livro novo) {
+
+        // carregar os livros
+        ArrayList<Livro> livros = carregaLivros();
+
+        Livro velho = null;
+
+        // percorrer os livros
+        for (Livro livro : livros) {
+
+            // se achou o livro procurado
+            if (livro.getIdLivro() == novo.getIdLivro()) {
+
+                velho = livro;
+                break;
+            }
+        }
+
+        // achou pra trocar?
+        if (velho != null) {
+            // tira o velho
+            livros.remove(velho);
+            // bota o novo
+            livros.add(novo);
+        }
+        
+        // atualiza a lista de livros
+        salvaLivros(livros);
+    }
+
 }

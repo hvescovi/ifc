@@ -48,7 +48,7 @@
                                         resultadoDeBusca = "";
 
                                         for (i = 0; i < partes.length; i++) {
-                                            resultadoDeBusca += partes[i] + "<br>";
+                                            resultadoDeBusca += partes[i] + "<a href=controlador?op=abrirFormEditarLivro&titulo="+partes[i]+">Editar</a><br>";
                                         }
 
                                         // se nao achou livros, mostra John
