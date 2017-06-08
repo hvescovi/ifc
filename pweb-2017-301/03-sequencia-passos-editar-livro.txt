@@ -1,4 +1,4 @@
-PRIMEIRO FLUXO:
+PRIMEIRO FLUXO (abrir tela de edição de dados):
 
 1. na página que mostra o ícone/link de editar livro: criar link para o controlador, especificando a operação "abrirFormEditarLivro" e informando o id do livro a ser editado.
 
