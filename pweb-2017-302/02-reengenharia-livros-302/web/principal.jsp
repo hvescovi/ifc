@@ -41,6 +41,8 @@
                                                         // capturar a resposta
                                                         var resposta = data;
 
+
+
                                                         // coloca a resposta na tela
                                                         // mostrar a resposta do controlador na div do formulario
                                                         $("#divFormInserir").text(resposta);
@@ -80,8 +82,18 @@
                                         var resp = data;
                                         //alert(resp);
 
+                                        var partes = resp.split("|");
+
+                                        var imprime = "";
+                                      
+                                        for (i = 0; i < partes.length; i++) {
+                                            imprime += partes[i] + " <a href=controlador?op=abrirFormEditarLivro&titulo="+partes[i]+">editar</a><br>";
+                                        }
+
+
+
                                         // mostra a resposta (livros)
-                                        $("#resultados").text(resp);
+                                        $("#resultados").html(imprime);
                                     });
                                     //$("#divFormInserir").text(procura);
                                 }

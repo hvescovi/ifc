@@ -1,6 +1,6 @@
 package testes;
 
-import dao.LivroDAO;
+import dao.xml.LivroDAO;
 import java.util.ArrayList;
 import modelo.Livro;
 
@@ -15,13 +15,13 @@ public class TestaLivroDAO {
         
         // criar livros para colocar na lista
         Livro l1 = new Livro();
-        l1.setIdLivro("1");
+        l1.setIdLivro(1);
         l1.setTitulo("Java");
         l1.setAutores("John");
         l1.setAno("1996");
         
-        Livro l2 = new Livro("2", "Pyhton", "Jack", "2018");
-        Livro l3 = new Livro("3", "Pascal", "Paul", "2015");
+        Livro l2 = new Livro(2, "Pyhton", "Jack", "2018");
+        Livro l3 = new Livro(3, "Pascal", "Paul", "2015");
         
         // inserir os livros na lista
         livros.add(l1);

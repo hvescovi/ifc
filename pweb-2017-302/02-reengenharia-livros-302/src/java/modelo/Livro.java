@@ -4,7 +4,7 @@ package modelo;
 
 public class Livro {
     
-    private String idLivro;
+    private int idLivro;
     private String titulo;
     private String autores;
     private String ano;
@@ -12,18 +12,18 @@ public class Livro {
     public Livro() {
     }
     
-    public Livro(String idLivro, String titulo, String autores, String ano) {
+    public Livro(int idLivro, String titulo, String autores, String ano) {
         this.idLivro = idLivro;
         this.titulo = titulo;
         this.autores = autores;
         this.ano = ano;
     }
 
-    public String getIdLivro() {
+    public int getIdLivro() {
         return idLivro;
     }
 
-    public void setIdLivro(String idLivro) {
+    public void setIdLivro(int idLivro) {
         this.idLivro = idLivro;
     }
 

@@ -1,4 +1,4 @@
-package dao;
+package dao.xml;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
@@ -51,6 +51,37 @@ public class LivroDAO {
             }
         }
         return retorno;
+    }
+    
+    public Livro buscaLivroPorTitulo(String procurado) {
+           ArrayList<Livro> livros = carregaLivros();
+            for (Livro livro : livros) {
+                if (livro.getTitulo().equals(procurado)) {
+                    return livro;
+                }
+            }
+        
+        return null;
+    }
+    
+    public void atualizaLivro(Livro novo) {
+           ArrayList<Livro> livros = carregaLivros();
+           Livro velho = null;
+            for (Livro livro : livros) {
+                if (livro.getIdLivro() == novo.getIdLivro()) {
+                    velho = livro;
+                    break;
+                }
+            }
+            // achou o livro que vai alterar?
+            if (velho != null) {
+                // apago o velho
+                livros.remove(velho);
+                // incluo o novo
+                livros.add(novo);
+            }
+            //atualizar os livros na mídia
+            salvaLivros(livros);
     }
 
 }
