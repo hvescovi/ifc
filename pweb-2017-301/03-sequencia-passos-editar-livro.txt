@@ -21,7 +21,6 @@ SEGUNDO FLUXO (após clicar no botão "Salvar"):
 4.1 obtém os novos dados do livro (que foram alterados, ou não)
 4.2 cria um livro com os dados novos
 4.3 solicita ao DAO que altere os dados do livro (será usado o id do livro, pelo DAO, para localizar o livro)
-4.4 se a operação deu certo, insere uma mensagem de sucesso na sessão e encaminha o fluxo para a página "sucesso.jsp"
-4.5 caso contrário, insere a mensagem de erro na sessão e encaminha o fluxo para a página "erro.jsp"
+4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
 
 FIM
