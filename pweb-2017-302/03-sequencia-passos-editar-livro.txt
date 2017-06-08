@@ -1,0 +1,26 @@
+PRIMEIRO FLUXO (abrir tela de edição de dados):
+
+1. na página que mostra o ícone/link de editar livro: criar link para o controlador, especificando a operação "abrirFormEditarLivro" e informando o id do livro a ser editado.
+
+2. no controlador:
+
+2.1 solicita ao LivroDAO o Livro a ser editado
+2.2 armazena o livro a ser editado na sessão
+2.3 repassa o fluxo de execução para a página "formEditarLivro.jsp"
+
+3. na página jsp:
+
+3.1 obtém da sessão o livro a ser editado 
+3.2 mostra os campos do livro, preenchendo-os com os valores do livro atual
+3.3 o botão "Salvar" chamará o controlador, informando a operação "alteraDadosLivro" e o código do livro a ter os dados alterados (esse segundo campo é um campo escondido)
+
+SEGUNDO FLUXO (após clicar no botão "Salvar"):
+
+4. no controlador:
+
+4.1 obtém os novos dados do livro (que foram alterados, ou não)
+4.2 cria um livro com os dados novos
+4.3 solicita ao DAO que altere os dados do livro (será usado o id do livro, pelo DAO, para localizar o livro)
+4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
+
+FIM
