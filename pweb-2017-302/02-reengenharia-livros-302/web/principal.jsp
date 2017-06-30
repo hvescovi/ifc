@@ -111,7 +111,7 @@
     <body>
         <h1>Biblioteca do IFC</h1>
         Busca por titulo: <input type="text" id="buscaTitulo">
-        <a href="#" id="linkInserir">Inserir livro</a>
+        <a href="#" id="linkInserir">Inserir livro</a> | <a href="01-linhas.jsp">Gráfico</a>
 
         <div id="divFormInserir">
         </div>
