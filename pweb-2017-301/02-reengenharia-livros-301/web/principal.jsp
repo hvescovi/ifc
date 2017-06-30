@@ -75,6 +75,7 @@
     </head>
     <body>
         <h1>Biblioteca do IFC</h1>
+        <a href="01-linhas.jsp">Gráfico</a>
         Buscar: <input type="text" id="buscarTitulo"> 
         <input type="submit" id="botaoInserir" value="Inserir">
 

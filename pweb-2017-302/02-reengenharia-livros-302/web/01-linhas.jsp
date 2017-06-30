@@ -20,7 +20,7 @@
 
                 Highcharts.chart('container', {
                     chart: {
-                        type: 'line'
+                        type: 'column'
                     },
                     title: {
                         text: 'Monthly Average Temperature'
