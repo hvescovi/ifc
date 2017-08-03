@@ -1,7 +1,6 @@
 package testes;
 
-import dao.xml.LivroDAO;
-import java.util.ArrayList;
+import dao.sql.LivroDAO;
 import modelo.Livro;
 
 public class TestaLivroDAO {
@@ -9,6 +8,9 @@ public class TestaLivroDAO {
     public static void main(String[] args) {
         // criar um livroDAO
         LivroDAO ldao = new LivroDAO();
+        
+        /*
+        
         
         // criar uma lista de livros
         ArrayList<Livro> livros = new ArrayList();
@@ -45,6 +47,26 @@ public class TestaLivroDAO {
         for (Livro livro : livros2) {
             System.out.println("Titulo do Livro: "+livro.getTitulo());
         }
+
+*/
+        
+        
+        Livro novo = new Livro();
+        novo.setIdLivro(1);
+        novo.setTitulo("Java");
+        novo.setAutores("John e Jack");
+        novo.setAno("2010");
+        /*
+        System.out.println("Inserindo um livro...");
+        ldao.insereLivro(novo);
+        System.out.println("Livro inserido com SUCESSO!");
+        */
+        
+        novo.setTitulo("Pascal");
+        System.out.println("Atualizando o livro...");
+        ldao.atualizaLivro(novo);
+        System.out.println("Livro atualizado!");
+//ldao.atualizaLivro(novo);
         
     }
     
