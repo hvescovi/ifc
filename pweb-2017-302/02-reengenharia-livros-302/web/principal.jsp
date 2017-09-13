@@ -4,6 +4,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Biblioteca do IFC</title>
+        <link rel="stylesheet" href="css/estilo.css">
         <script src="jquery-1.10.2.js"></script>
         <script>
 
@@ -31,8 +32,6 @@
 
                                 // capturar a resposta
                                 var resposta = data;
-
-
 
                                 // coloca a resposta na tela
                                 // mostrar a resposta do controlador na div do formulario
