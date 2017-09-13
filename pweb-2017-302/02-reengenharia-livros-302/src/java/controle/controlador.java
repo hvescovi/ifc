@@ -5,7 +5,7 @@ package controle;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import dao.sql.LivroDAO;
+import dao.xml.LivroDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -135,6 +135,12 @@ public class controlador extends HttpServlet {
 
                 //4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
                 out.print("livro alterado. <a href=principal.jsp>continuar</a>");
+            } else if (op.equals("listaLivros")) {
+                LivroDAO ldao = new LivroDAO();
+                ArrayList<Livro> livros = ldao.carregaLivros();
+                request.setAttribute("lista", livros);
+                RequestDispatcher rd = request.getRequestDispatcher("lista.jsp");
+                rd.forward(request, response);
             }
 
         }

@@ -1,6 +1,7 @@
 package testes;
 
-import dao.sql.LivroDAO;
+import dao.xml.LivroDAO;
+import java.util.ArrayList;
 import modelo.Livro;
 
 public class TestaLivroDAO {
@@ -32,6 +33,7 @@ public class TestaLivroDAO {
         
         // testar o metodo de salvar livros
         ldao.salvaLivros(livros);
+        */
         
         // testa a leitura dos livros
         ArrayList<Livro> livros2 = ldao.carregaLivros();
@@ -40,7 +42,7 @@ public class TestaLivroDAO {
         for (Livro livro : livros2) {
             System.out.println("Titulo do Livro: "+livro.getTitulo());
         }
-        
+        /*
         System.out.println("Testando busca de livros por titulo");
         // exibe livros que tem a palavra "Para"
         livros2 = ldao.buscaLivrosPorTitulo("Py");
@@ -49,7 +51,7 @@ public class TestaLivroDAO {
         }
 
 */
-        
+        /*
         
         Livro novo = new Livro();
         novo.setIdLivro(1);
@@ -61,11 +63,12 @@ public class TestaLivroDAO {
         ldao.insereLivro(novo);
         System.out.println("Livro inserido com SUCESSO!");
         */
-        
+        /*
         novo.setTitulo("Pascal");
         System.out.println("Atualizando o livro...");
         ldao.atualizaLivro(novo);
         System.out.println("Livro atualizado!");
+        */
 //ldao.atualizaLivro(novo);
         
     }

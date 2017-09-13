@@ -1,9 +1,3 @@
-<%-- 
-    Document   : formEditarLivro
-    Created on : Jun 8, 2017, 10:32:02 AM
-    Author     : friend
---%>
-
 <%@page import="modelo.Livro"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -20,7 +14,7 @@
             Livro livro = (Livro) ses.getAttribute("mickey");
 
             //3.2 mostra os campos do livro, preenchendo-os com os valores do livro atual
-        %>            
+%>            
 
 
         <form action="controlador">
@@ -29,14 +23,14 @@
             Autores <input type="text" name="autores" value="<%=livro.getAutores()%>"> <br>
             Ano <input type="text" name="ano" value="<%=livro.getAno()%>"> <br>
             <input type="submit" value="Salvar">
-            
-            <%    //3.3 o botão "Salvar" chamará o controlador, 
+
+            <%  //3.3 o botão "Salvar" chamará o controlador, 
                 //informando a operação "alteraDadosLivro" e o 
-    //código do livro a ter os dados alterados 
-//(esse segundo campo é um campo escondido)
-%>
-<input type="hidden" name="op" value="alteraDadosLivro">
-<input type="hidden" name="idlivro" value="<%=livro.getIdLivro()%>">
+                //código do livro a ter os dados alterados 
+                //(esse segundo campo é um campo escondido)
+            %>
+            <input type="hidden" name="op" value="alteraDadosLivro">
+            <input type="hidden" name="idlivro" value="<%=livro.getIdLivro()%>">
         </form>
     </body>
 </html>
