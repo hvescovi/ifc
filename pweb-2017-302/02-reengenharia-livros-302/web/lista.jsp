@@ -59,8 +59,8 @@
                     <td class="lalign"><%=livro.getTitulo()%></td>
                     <td><%=livro.getAutores()%></td>
                     <td>
-                        <a href="controlador?op=exclui&cpf=<%=p.getCpf()%>">Exclui</a> 
-                        <a href="#" class="acaoExclui" id="link-exclui-<%=p.getCpf()%>">Exclui II jquery</a>
+                        <a href="controlador?op=exclui&cpf=<%=livro.getIdLivro()%>">Exclui</a> 
+                        <a href="#" class="acaoExclui" id="link-exclui-<%=livro.getIdLivro()%>">Exclui II jquery</a>
                     </td>
                 </tr>
 
