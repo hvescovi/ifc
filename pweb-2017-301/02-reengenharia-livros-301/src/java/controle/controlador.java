@@ -39,99 +39,108 @@ public class controlador extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            // obtém a qual a operação a ser executada
-            String op = request.getParameter("op");
+            try {
 
-            if (op.equals("APIBuscaLivrosPorTitulo")) {
+                // obtém a qual a operação a ser executada
+                String op = request.getParameter("op");
 
-                // pegar o que estah sendo procurado
-                String procurado = request.getParameter("procurado");
+                if (op.equals("APIBuscaLivrosPorTitulo")) {
 
-                // pedir ao DAO os livros que contem o 
-                // que estah sendo procurado no titulo
-                LivroDAO ldao = new LivroDAO();
-                ArrayList<Livro> resultados = ldao.buscaLivrosPorTitulo(procurado);
+                    // pegar o que estah sendo procurado
+                    String procurado = request.getParameter("procurado");
 
-                // converter a lista de livros em uma string
-                String nomesLivros = "";
-                for (Livro livro : resultados) {
-                    if (!nomesLivros.equals("")) {
-                        nomesLivros += "|";
+                    // pedir ao DAO os livros que contem o 
+                    // que estah sendo procurado no titulo
+                    LivroDAO ldao = new LivroDAO();
+                    ArrayList<Livro> resultados = ldao.buscaLivrosPorTitulo(procurado);
+
+                    // converter a lista de livros em uma string
+                    String nomesLivros = "";
+                    for (Livro livro : resultados) {
+                        if (!nomesLivros.equals("")) {
+                            nomesLivros += "|";
+                        }
+                        nomesLivros += livro.getTitulo();
                     }
-                    nomesLivros += livro.getTitulo();
-                }
 
-                // retornar a string 
-                out.print(nomesLivros);
+                    // retornar a string 
+                    out.print(nomesLivros);
 
-            } else if (op.equals("loginAdmin")) {
+                } else if (op.equals("loginAdmin")) {
 
-                // pegar os dados
-                String login = request.getParameter("login");
-                String senha = request.getParameter("senha");
+                    // pegar os dados
+                    String login = request.getParameter("login");
+                    String senha = request.getParameter("senha");
 
-                // validar os dados: se o login estah certo...
-                if (login.equals("admin") && senha.equals("123")) {
+                    // validar os dados: se o login estah certo...
+                    if (login.equals("admin") && senha.equals("123")) {
 
-                    // botar a variavel administradorLogado na sessao,
-                    // com o valor "verdadeiro"
+                        // botar a variavel administradorLogado na sessao,
+                        // com o valor "verdadeiro"
+                        HttpSession ses = request.getSession(true);
+                        ses.setAttribute("administradorLogado", true);
+
+                        // mostra que o administrador estah logado! show!
+                        out.println("Admin, bem vindo! <a href=principal.jsp>Continuar</a>");
+
+                        // se o login estah incorreto...
+                    } else {
+
+                        // mostra que o login estah incorreto!
+                        out.println("Login incorreto!!!!!! <a href=\"principal.jsp\">Continuar</a>");
+                    }
+                } else if (op.equals("logout")) {
+
+                    // tira a variavel administradorLogado da sessao
                     HttpSession ses = request.getSession(true);
-                    ses.setAttribute("administradorLogado", true);
+                    ses.removeAttribute("administradorLogado");
 
-                    // mostra que o administrador estah logado! show!
-                    out.println("Admin, bem vindo! <a href=principal.jsp>Continuar</a>");
+                    // volta pra tela principal
+                    RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
+                    rd.forward(request, response);
 
-                    // se o login estah incorreto...
+                } else if (op.equals("abrirFormEditarLivro")) {
+
+                    //2.05 buscar o id do livro a ser editado
+                    String procurar = request.getParameter("titulo");
+
+                    // 2.1 solicita ao LivroDAO o Livro a ser editado
+                    LivroDAO ldao = new LivroDAO();
+                    Livro paraEditar = ldao.buscaLivroPorTitulo(procurar);
+
+                    // 2.2 armazena o livro a ser editado na sessão
+                    HttpSession ses = request.getSession(true);
+                    ses.setAttribute("livro", paraEditar);
+
+                    // 2.3 repassa o fluxo de execução para a página "formEditarLivro.jsp"
+                    RequestDispatcher rd = request.getRequestDispatcher("formEditarLivro.jsp");
+                    rd.forward(request, response);
+
+                } else if (op.equals("alteraDadosLivro")) {
+
+                    //4.1 obtém os novos dados do livro (que foram alterados, ou não)
+                    String idlivro = request.getParameter("idlivro");
+                    String titulo = request.getParameter("titulo");
+                    String autores = request.getParameter("autores");
+                    String ano = request.getParameter("ano");
+
+                    //4.2 cria um livro com os dados novos
+                    Livro novo = new Livro(Integer.parseInt(idlivro), titulo, autores, ano);
+
+                    //4.3 solicita ao DAO que altere os dados do livro 
+                    //(será usado o id do livro, pelo DAO, para localizar o livro)
+                    LivroDAO ldao = new LivroDAO();
+                    ldao.atualizaLivro(novo);
+
+                    //4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
+                    out.println("livro atualizado. <a href=principal.jsp>continuar</a>");
                 } else {
-
-                    // mostra que o login estah incorreto!
-                    out.println("Login incorreto!!!!!! <a href=\"principal.jsp\">Continuar</a>");
+                    out.println("Acao desconhecida pelo controlador: "+op);
                 }
-            } else if (op.equals("logout")) {
 
-                // tira a variavel administradorLogado da sessao
-                HttpSession ses = request.getSession(true);
-                ses.removeAttribute("administradorLogado");
-
-                // volta pra tela principal
-                RequestDispatcher rd = request.getRequestDispatcher("principal.jsp");
-                rd.forward(request, response);
-
-            } else if (op.equals("abrirFormEditarLivro")) {
-
-                //2.05 buscar o id do livro a ser editado
-                String procurar = request.getParameter("titulo");
-
-                // 2.1 solicita ao LivroDAO o Livro a ser editado
-                LivroDAO ldao = new LivroDAO();
-                Livro paraEditar = ldao.buscaLivroPorTitulo(procurar);
-
-                // 2.2 armazena o livro a ser editado na sessão
-                HttpSession ses = request.getSession(true);
-                ses.setAttribute("livro", paraEditar);
-
-                // 2.3 repassa o fluxo de execução para a página "formEditarLivro.jsp"
-                RequestDispatcher rd = request.getRequestDispatcher("formEditarLivro.jsp");
-                rd.forward(request, response);
-
-            } else if (op.equals("alteraDadosLivro")) {
-
-                //4.1 obtém os novos dados do livro (que foram alterados, ou não)
-                String idlivro = request.getParameter("idlivro");
-                String titulo = request.getParameter("titulo");
-                String autores = request.getParameter("autores");
-                String ano = request.getParameter("ano");
-
-                //4.2 cria um livro com os dados novos
-                Livro novo = new Livro(Integer.parseInt(idlivro), titulo, autores, ano);
-
-                //4.3 solicita ao DAO que altere os dados do livro 
-                //(será usado o id do livro, pelo DAO, para localizar o livro)
-                LivroDAO ldao = new LivroDAO();
-                ldao.atualizaLivro(novo);
-
-                //4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
-                out.println("livro atualizado. <a href=principal.jsp>continuar</a>");
+            } catch (Exception ex) {
+                out.println("Erro no controlador: " + ex.getMessage());
+                ex.printStackTrace();
             }
 
         }
