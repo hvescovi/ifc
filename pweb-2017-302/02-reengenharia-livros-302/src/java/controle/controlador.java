@@ -35,6 +35,8 @@ public class controlador extends HttpServlet {
                 // o que o controlador deve fazer?
                 String op = request.getParameter("op");
 
+                LivroDAO ldao = new LivroDAO();
+
                 if (op.equals("APIInsereLivro")) {
 
                     out.println("ok livro inserido para sua alegria");
@@ -45,7 +47,6 @@ public class controlador extends HttpServlet {
                     String procurado = request.getParameter("procura");
 
                     // pedir ao DAO os livros que contenham esse título buscado
-                    LivroDAO ldao = new LivroDAO();
                     ArrayList<Livro> encontrados = ldao.buscaLivrosPorTitulo(procurado);
 
                     // preparar uma resposta da lista de livros em formato texto
@@ -100,7 +101,6 @@ public class controlador extends HttpServlet {
                     String procurado = request.getParameter("titulo");
 
                     //2.1 solicita ao LivroDAO o Livro a ser editado
-                    LivroDAO ldao = new LivroDAO();
                     Livro livro = ldao.buscaLivroPorTitulo(procurado);
 
                     //2.2 armazena o livro a ser editado na sessão
@@ -123,17 +123,20 @@ public class controlador extends HttpServlet {
                     Livro livro = new Livro(Integer.parseInt(idlivro), titulo, autores, ano);
 
                     //4.3 solicita ao DAO que altere os dados do livro (será usado o id do livro, pelo DAO, para localizar o livro)
-                    LivroDAO ldao = new LivroDAO();
                     ldao.atualizaLivro(livro);
 
                     //4.4 mostra uma mensagem de que o livro foi alterado, e um link para continuar
                     out.print("livro alterado. <a href=principal.jsp>continuar</a>");
                 } else if (op.equals("listaLivros")) {
-                    LivroDAO ldao = new LivroDAO();
+
                     ArrayList<Livro> livros2 = ldao.carregaLivros();
                     request.setAttribute("lista", livros2);
                     RequestDispatcher rd = request.getRequestDispatcher("lista.jsp");
                     rd.forward(request, response);
+                } else if (op.equals("APIexclui")) {
+                    int idLivro = Integer.valueOf(request.getParameter("idLivro"));
+                    ldao.removeLivro(new Livro(idLivro, "", "", ""));
+                    out.println("Livro " + idLivro + " removido.");
                 } else {
                     out.println("Controlador: ação não reconhecida: " + op);
                 }

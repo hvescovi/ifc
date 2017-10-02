@@ -84,4 +84,21 @@ public class LivroDAO {
             salvaLivros(livros);
     }
 
+    public void removeLivro(Livro excluir) {
+           ArrayList<Livro> livros = carregaLivros();
+           Livro paraRemover = null;
+            for (Livro livro : livros) {
+                if (livro.getIdLivro() == excluir.getIdLivro()) {
+                    paraRemover = livro;
+                    break;
+                }
+            }
+            // achou o livro que vai alterar?
+            if (paraRemover != null) {
+                livros.remove(paraRemover);
+            }
+            //atualizar os livros na mídia
+            salvaLivros(livros);
+    }
+    
 }

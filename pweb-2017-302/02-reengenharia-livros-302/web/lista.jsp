@@ -24,9 +24,10 @@
                     var clicked = $(this);
                     var id = clicked.attr("id");
                     var partes = id.split("-");
-                    var cpf = partes[2];
-                    $.get("controlador?op=exclui&cpf=" + cpf, function (data, status) {
+                    var idLivro = partes[2];
+                    $.get("controlador?op=APIexclui&idLivro=" + idLivro, function (data) {
                         $('#linha-' + cpf).hide();
+                        $('#linha-' + cpf).text(data);
                     });
                 }); // fim acao exclui
             }); // fim document ready
@@ -59,7 +60,7 @@
                     <td class="lalign"><%=livro.getTitulo()%></td>
                     <td><%=livro.getAutores()%></td>
                     <td>
-                        <a href="controlador?op=exclui&cpf=<%=livro.getIdLivro()%>">Exclui</a> 
+                        <a href="controlador?op=exclui&idLivro=<%=livro.getIdLivro()%>">Exclui</a> 
                         <a href="#" class="acaoExclui" id="link-exclui-<%=livro.getIdLivro()%>">Exclui II jquery</a>
                     </td>
                 </tr>
