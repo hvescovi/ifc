@@ -44,7 +44,6 @@ if __name__ == '__main__':
     except peewee.OperationalError as e:
         print("erro ao criar tabelas: "+str(e))
 
-if __name__ == "__main__":
     print("TESTE DO ANIMAL")
     a1 = Animal(nomedono="José", 
     tipo_animal="C", raca="Chiuaua")
