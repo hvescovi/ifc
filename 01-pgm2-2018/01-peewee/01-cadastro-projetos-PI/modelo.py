@@ -15,14 +15,12 @@ class Aluno(BaseModel):
 class Area(BaseModel):
     nome = CharField()
     descricao = CharField()
-
     def __str__(self):
         return self.nome
     
 class Docente(BaseModel):
     nome = CharField()
     areas = ManyToManyField(Area)
-
     def __str__(self):
         s = self.nome
         for area in self.areas:
@@ -35,7 +33,6 @@ class TrabalhoPI(BaseModel):
     url = CharField()
     alunos = ManyToManyField(Aluno)
     docentes = ManyToManyField(Docente)
-
     def __str__(self):
         s = self.titulo
         for aluno in self.alunos:
@@ -58,26 +55,29 @@ if __name__ == "__main__":
         TrabalhoPI.alunos.get_through_model(),
         TrabalhoPI.docentes.get_through_model()])
 
-    pedro = Aluno.create(nome = "Pedro de Oliveira", turma = "301 INFO")
-    maria = Aluno.create(nome = "Maria de Souza", turma = "301 INFO")
+    pedro = Aluno.create(nome = "Pedro de Oliveira", 
+        turma = "301 INFO")
+    maria = Aluno.create(nome = "Maria de Souza", 
+        turma = "301 INFO")
 
     bd = Area.create(nome = "Banco de dados",
-        descricao = "Modelagem, implementação e suporte de bancos de dados.")
+        descricao = "Modelagem, implementação e "+\
+        "suporte de bancos de dados.")
     tf = Area.create(nome = "Tolerância a faltas", 
-        descricao = "Provimento de robustez a sistemas, para que os mesmos"+\
-        " operem de maneira ininterrupta.")
+        descricao = "Provimento de robustez a sistemas, "+\
+        "para que os mesmos operem de maneira ininterrupta.")
     
-    aldelir = Docente.create(nome = "Aldelir Fernando Luiz")
+    aldelir = Docente.create(nome = "Aldelir Luiz")
     aldelir.areas.add(bd)
     aldelir.areas.add(tf)
 
     t1 = TrabalhoPI.create(titulo = "Bancos de Dados em "+\
         "Grafos para Modelagem Tridimensional de Estrelas",
-        descricao = "Uso do Neo4j para armazenar pontos da estrela Órion",
-        url = "não disponível")#, alunos = [pedro, maria])#, docentes = [aldelir])
+        descricao = "Uso do Neo4j para armazenar "+\
+        "pontos da estrela Órion",
+        url = "não disponível")
     t1.alunos.add(pedro)
     t1.alunos.add(maria)
     t1.docentes.add(aldelir)
 
-    print(t1)
-    
+    print(t1)    
