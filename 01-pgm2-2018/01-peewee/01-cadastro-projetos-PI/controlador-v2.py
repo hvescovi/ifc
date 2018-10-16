@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from modelo import *
 
 app =  Flask(__name__)
 
@@ -10,6 +11,7 @@ def inicio():
 
 @app.route("/listar")
 def listar():
-    return render_template("listar-v1.html")
+    trabs = TrabalhoPI.select()
+    return render_template("listar-v2.html", lista = trabs)
 
 app.run()
