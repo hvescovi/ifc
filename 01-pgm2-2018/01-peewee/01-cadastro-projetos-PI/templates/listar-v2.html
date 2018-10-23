@@ -15,6 +15,9 @@
             {% endfor %}
             {% for prof in trab.docentes %}
               , orientado por {{prof.nome}}
+              {% for area in prof.areas %}
+                , área: {{area.nome}}
+                {% endfor %} 
             {% endfor %}
             </li>
         {% endfor %}
