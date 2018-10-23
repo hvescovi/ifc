@@ -39,21 +39,27 @@ ingles.save()
 
 espanhol = Disciplina.create(nome = 'Espanhol')
 
-disciplina1Joao = AlunoDisciplina(aluno=joao, disciplina=ingles)
+disciplina1Joao = AlunoDisciplina(
+    aluno=joao, disciplina=ingles)
 disciplina1Joao.save() # force_insert=True se usar chave composta
-disciplina2Joao = AlunoDisciplina.create(aluno=joao, disciplina=espanhol)
+disciplina2Joao = AlunoDisciplina.create(
+    aluno=joao, disciplina=espanhol)
 
 maria = Aluno(nome = 'Maria')
 maria.save()
 
 # com 'create' não é preciso usar force_insert=True com uso da chave primária
-disciplinaMaria = AlunoDisciplina.create(aluno=maria, disciplina=ingles)
+disciplinaMaria = AlunoDisciplina.create(
+    aluno=maria, disciplina=ingles)
 
 q1 = AlunoDisciplina.select()
 for dado in q1:
-    print(dado.aluno.nome+" cursa: "+dado.disciplina.nome)
+    print(dado.aluno.nome+" cursa: "+
+    dado.disciplina.nome)
 
-q2 = AlunoDisciplina.select().where(AlunoDisciplina.aluno == (Aluno.get(Aluno.nome == 'Joao da Silva')))
+q2 = AlunoDisciplina.select().where(
+    AlunoDisciplina.aluno == (
+    Aluno.get(Aluno.nome == 'Joao da Silva')))
 print("Disciplinas de Joao:")
 for dado2 in q2:
     print(dado2.disciplina.nome)
