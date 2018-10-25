@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from modelo import *
 
 app =  Flask(__name__)
@@ -20,4 +20,17 @@ def form_inserir():
     docentes = Docente.select()
     return render_template("form_incluir_v1.html", 
         alunos=alunos, docentes=docentes)
+
+@app.route("/inserir",methods=["post"])
+def inserir():
+    aluno = Aluno.get(id = request.form['aluno'])
+    prof = Docente.get(id = request.form['docente'])
+
+    t1 = TrabalhoPI.create(titulo = request.form['titulo'],
+        descricao = request.form['descricao'],
+        url = request.form['url'])
+    t1.alunos.add(aluno)
+    t1.docentes.add(prof)
+    return listar()
+
 app.run(debug=True)
