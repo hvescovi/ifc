@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sistema de cadastro de 
+    projetos integradores</title>
+</head>
+<body>
+    <h1>Inclusão de projeto integrador</h1>
+    
+    <form action=inserir method=post>
+        Título: <input type=text name=titulo><br/>
+        Descrição: 
+        <textarea name=descricao></textarea><br/>
+        URL: <input type=text name=url> </br>
+
+        Alunos:
+        <select name=aluno>
+            {% for alu in alunos %}
+            <option value={{alu.id}}>
+                {{alu.nome}}</option>
+            {% endfor %}
+        </select>
+        <br/>
+        Orientadores:
+        <select name=docente>
+            {% for doc in docentes %}
+            <option value={{doc.id}}>
+                {{doc.nome}}</option>
+            {% endfor %}
+        </select>
+        <br/>
+
+        <input type=submit value=Incluir>
+    </form>
+
+</body>
+</html>
