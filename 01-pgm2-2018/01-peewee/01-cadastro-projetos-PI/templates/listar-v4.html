@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sistema de cadastro de 
+    projetos integradores</title>
+</head>
+<body>
+    <h1>Listagem de projetos integradores</h1>
+    <a href=/form_inserir>Inserir</a>
+    <hr>
+    <ul>
+        {% for trab in lista %}
+            <li>{{trab.titulo}} 
+            {% for alu in trab.alunos %}
+              , {{alu.nome}} turma {{alu.turma}}
+            {% endfor %}
+            {% for prof in trab.docentes %}
+              , orientado por {{prof.nome}}
+            {% endfor %}
+            <a href=/excluir?id={{trab.id}}>excluir</a>
+            </li>
+        {% endfor %}
+    </ul>        
+</body>
+</html>
