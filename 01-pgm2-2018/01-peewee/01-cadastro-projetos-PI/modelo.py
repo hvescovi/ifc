@@ -76,7 +76,7 @@ if __name__ == "__main__":
         descricao = "Uso do Neo4j para armazenar "+\
         "pontos da estrela Órion",
         url = "não disponível")
-    t1.alunos.add(pedro)
+    #t1.alunos.add(pedro)
     t1.alunos.add(maria)
     t1.docentes.add(aldelir)
 
