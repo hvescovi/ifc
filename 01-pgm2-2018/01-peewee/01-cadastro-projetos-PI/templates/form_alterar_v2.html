@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Sistema de cadastro de 
+    projetos integradores</title>
+</head>
+<body>
+    <h1>Alteração de projeto integrador</h1>
+    <form action=alterar method=post>
+        Título: <input type=text name=titulo 
+        value="{{pi.titulo}}"><br/>
+        Descrição: 
+        <textarea 
+        name=descricao>{{pi.descricao}}</textarea>
+        <br/>URL: <input type=text 
+        name=url value="{{pi.url}}">
+        </br>
+        Alunos:
+        <select name=aluno>
+            {% for alu in alunos %}
+            <option value={{alu.id}}
+            {% if alu.id == pi.alunos[0].id %}
+              selected
+            {% endif %}
+            > {{alu.nome}}</option>
+            {% endfor %}
+        </select>
+        <br/>
+        Orientadores:
+        <select name=docente>
+            {% for doc in docentes %}
+            <option value={{doc.id}}
+            {% if doc.id == pi.docentes[0].id %}
+              selected
+            {% endif %}
+            > {{doc.nome}}</option>
+            {% endfor %}
+        </select>
+        <br/>
+        <input type=submit 
+        value="Salvar alterações">
+        <input type=hidden name=id_pi value={{pi.id}}>
+    </form>
+</body>
+</html>
