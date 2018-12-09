@@ -33,6 +33,8 @@ class TrabalhoPI(BaseModel):
     url = CharField()
     alunos = ManyToManyField(Aluno)
     docentes = ManyToManyField(Docente)
+    
+    
     def __str__(self):
         s = self.titulo
         for aluno in self.alunos:
