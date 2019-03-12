@@ -1,5 +1,6 @@
 package modelo;
 
+import dao.estatico.DAO;
 import java.util.ArrayList;
 
 public class Atendimento {
@@ -7,8 +8,12 @@ public class Atendimento {
     public String data;
     public String hora;
     public Cliente cli;
-    ArrayList<Servico> servicos = new ArrayList();
-    ArrayList<Venda> vendas = new ArrayList();
+    public ArrayList<Servico> servicos = new ArrayList();
+    public ArrayList<Venda> vendas = new ArrayList();
+    
+    public Atendimento(Cliente c) {
+        this.cli = c;
+    }
     
     public String toString(){
         
@@ -41,37 +46,14 @@ public class Atendimento {
     
     // TESTE DO ATENDIMENTO
     public static void main(String[] args) {
+             
+        System.out.println("*** Teste do método retornarPrimeiroAtendimento");
+        System.out.println(DAO.retornarPrimeiroAtendimento());
         
-        Cliente manel = new Cliente();
-        manel.cpf = "123.456.789-30";
-        manel.nome = "Manoel da Silva";
+        System.out.println("*** Teste do método retornarAtendimentos");
+        for (Atendimento a : DAO.retornarAtendimentos()) {
+            System.out.println(a);
+        }
         
-        Servico s = new Servico();
-        s.descricao = "Troca de lâmpada";
-        s.preco = 10;
-        
-        Servico s2 = new Servico();
-        s2.descricao = "Reparo de tomada";
-        s2.preco = 20;
-        
-        Produto lampada = new Produto();
-        lampada.descricao = "Lampada de led";
-        lampada.preco = (float) 20.0;
-        lampada.qtdEstoque = 20;
-        lampada.unidade = "unidade";
-        
-        Venda v = new Venda();
-        v.prod = lampada;
-        v.qtd = 2;
-        
-        Atendimento a1 = new Atendimento();
-        a1.data = "25/02/2019";
-        a1.hora = "21:33";
-        a1.cli = manel;
-        a1.servicos.add(s);
-        a1.servicos.add(s2);
-        a1.vendas.add(v);
-        
-        System.out.println(a1);
     }
 }
